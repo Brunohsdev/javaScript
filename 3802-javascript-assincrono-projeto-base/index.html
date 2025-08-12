@@ -52,9 +52,10 @@
             <div class="container-imagem">
                 <img src="img/imagem1.png" alt="" class="main-imagem">
             </div>
-            <button>Carregar imagem</button>
+            <button id="upload-btn">Carregar imagem</button>
+            <input type="file" id="image-upload" accept="image/*" style="display: none;">
             <div class="container-imagem-nome">
-                <p>imagem_projeto.pnj</p>
+                <p>imagem_projeto.png</p>
                 <img src="img/close.svg" alt="">
             </div>
         </div>
@@ -71,11 +72,11 @@
                 </div>
                 <div>
                     <label for="categoria">Tags</label>
-                    <input type="text" id="categoria"/>
+                    <input type="text" id="inputTags"/>
                 </div>
-                <ul class="lis-tags">
+                <ul class="lis-tags" id="lista-tags">
                     <li>
-                        <p>fronnt-end</p>
+                        <p>front-end</p>
                         <img src="img/close-black.svg" alt="">
                     </li>
                 </ul>
@@ -87,7 +88,7 @@
             </form>
         </div>
     </main>
-    <script src="script.js"></script>
+    <script src="scripts.js"></script>
 </body>
 
 </html>
