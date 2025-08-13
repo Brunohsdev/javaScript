@@ -43,19 +43,6 @@ inputUpload.addEventListener("change", async(evento) => {
 const inputTags = document.getElementById('inputTags');
 const listaTags = document.getElementById('lista-tags');
 
-inputTags.addEventListener('keypress', (evento) =>{
-    if(evento.key === "Enter"){
-        evento.preventDefault();
-        const tagtexto = inputTags.value.trim();
-        if(tagtexto !==""){
-            const newTag = document.createElement("li");
-            newTag.innerHTML = `<p>${tagtexto}</p> <img src="img/close-black.svg" class="remove-tag" alt="Remover tag">`;
-            listaTags.appendChild(newTag);
-            inputTags.value= "";
-        }
-    }
-})
-
 listaTags.addEventListener('click', (evento)=>{
     if(evento.target.classList.contains("remove-tag")){
         const tagQueQueremosResolver = evento.target.parentElement;
@@ -73,3 +60,85 @@ async function verificaTags(tagsTexto){
         }, 1000)
     })
 }
+
+
+inputTags.addEventListener('keypress', async (evento) =>{
+    if(evento.key === "Enter"){
+        evento.preventDefault();
+        const tagtexto = inputTags.value.trim();
+        if(tagtexto !==""){
+            try{
+            const tagExiste = await verificaTags(tagtexto);
+            if(tagExiste) {
+
+            
+            const newTag = document.createElement("li");
+            newTag.innerHTML = `<p>${tagtexto}</p> <img src="img/close-black.svg" class="remove-tag" alt="Remover tag">`;
+            listaTags.appendChild(newTag);
+            inputTags.value= "";
+            }
+            else{
+                alert("Tag não foi encontrada");
+                inputTags.value = "";
+            }
+            }
+            catch(error){
+                console.error("Erro ao verificar a tag:", error);
+                alert("Erro ao verificar a tag.");
+            }
+        }
+    }
+})
+
+
+const buttonPublicar = document.querySelector(".botao-publicar");
+
+async function publicarProjeto(nome, descricao, tags) {
+    return new Promise((resolve, reject) =>{
+        setTimeout(()=>{
+            const deuCerto = Math.random()>0.5;
+
+            if(deuCerto){
+                resolve("Projeto deu certo")
+            }
+            else{
+                reject("Erro ao publicar projeto")
+            }
+        }, 1000)
+    })
+}
+
+
+buttonPublicar.addEventListener("click", async (evento) => {
+    evento.preventDefault();
+
+    const nomedoProjeto = document.getElementById("nome");
+    const descricaoProjeto = document.getElementById("descricao");
+    const tagsProjetos = Array.from(listaTags.querySelectorAll("p")).map(p => p.textContent);
+
+    try {
+        const resultado = await publicarProjeto(nomedoProjeto.value, descricaoProjeto.value, tagsProjetos);
+        console.log(resultado);
+    } catch (error) {
+        console.error(error);
+    }try {
+        const resultado = await publicarProjeto(nomedoProjeto.value, descricaoProjeto.value, tagsProjetos);
+        console.log(resultado);
+    } catch(error){
+        console.error(error);
+        alert("Deu tudo certo!");
+    }
+})
+
+const botaoDescartar = document.querySelector(".botao-descartar");
+
+botaoDescartar.addEventListener("click", (evento)=>{
+    evento.preventDefault();
+    const formulario = document.querySelector("form");
+    formulario.reset();
+
+    imagemPrincipal.src = "img/imagem1.png";
+    nomeDaImagem.textContent = "image_projeto.png"
+    listaTags.innerHTML = "";
+
+})
